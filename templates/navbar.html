@@ -1,0 +1,118 @@
+{% load static %}
+
+
+<!--::header part start::-->
+<header class="main_menu home_menu bg-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="{% url 'home' %}"> <img src="{% static 'img/e-health.png' %}" alt="logo"> </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        
+                    <div class="collapse navbar-collapse main-menu-item justify-content-center" id="navbarSupportedContent">
+                        <ul class="navbar-nav align-items-center">
+                           
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{% url 'doctor_dahboard' %}">Dashboard</a>
+                            </li>
+
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{% url 'record' %}">Medical Records</a>
+                            </li>
+
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{% url 'appoint' %}">View Appointments</a>
+                            </li>
+                        </ul>
+                    </div>
+                        
+                        <button>
+                            <a href="javascript:{document.getElementById('logout').submit()}">Logout </a>
+                            <form  action="{% url 'logout' %}" id="logout" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden">
+                            </form>
+                        </button>
+                    
+
+                </nav>
+                {% else %}
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="{% url 'home' %}"> <img src="{% static 'img/e-health.png' %}" alt="logo"> </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        
+                    <div class="collapse navbar-collapse main-menu-item justify-content-center" id="navbarSupportedContent">
+                        <ul class="navbar-nav align-items-center">
+                           
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{% url 'patient_dashboard' %}">Dashboard</a>
+                            </li>
+
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{% url 'medical_records' %}">Update Medical Records</a>
+                            </li>
+
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{% url 'appointment' %}">Book Appointments</a>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                    <button>
+                        <a href="javascript:{document.getElementById('logout').submit()}">Logout </a>
+                        <form  action="{% url 'logout' %}" id="logout" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden">
+                        </form>
+                    </button>
+
+                </nav>
+
+                {% endif %}
+                {% else %}
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="{% url 'home' %}"> <img src="{% static 'img/e-health.png' %}" alt="logo"> </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        
+                    <div class="collapse navbar-collapse main-menu-item justify-content-center" id="navbarSupportedContent">
+                        <ul class="navbar-nav align-items-center">
+                           
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{% url 'about' %}">about</a>
+                            </li>
+
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{% url 'service' %}">Services</a>
+                            </li>
+
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{% url 'contact' %}">Contact</a>
+                            </li>
+                        </ul>
+                    </div>               
+                    <a class="btn_2 d-none d-lg-block" href="{% url 'login' %}">LOG IN</a>
+                
+                </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</header>

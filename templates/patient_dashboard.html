@@ -1,0 +1,162 @@
+
+{% extends 'base.html' %}{% load static %}
+
+{% block content %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+
+<div class='chart-container' style="display: flex; margin-top: 150px; margin-bottom: 100px; justify-content: space-between">
+    <canvas id="canvas" width=300 height=300 style="margin: 20px 10px 0 10px;"></canvas>
+    <canvas id="canvas2" width=300 height=300 style="margin: 20px 10px 0 10px;"></canvas>
+    <canvas id="canvas3" width=300 height=300 style="margin: 0 10px 0 10px;"></canvas>
+    <canvas id="canvas4" width=300 height=300 style="margin: 0 10px 0 10px;"></canvas>  
+</div>
+
+<script> 
+
+  var allData = 
+  [
+    [
+      {
+        value: {{data.common_disease.data.0}},
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "Red"
+      },
+      {
+        value: {{data.common_disease.data.1}},
+        color: "blue",
+        highlight: "#5AD3D1",
+        label: "Green"
+      },
+      {
+        value: {{data.common_disease.data.2}},
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "Yellow"
+      },
+      {
+        value: {{data.common_disease.data.3}},
+        color:"#FF0",
+        highlight: "#FF5A5E",
+        label: "Red"
+      }
+    ],
+
+    [
+      {
+        value: {{data.drink_choices.data.0}},
+        color:"#FF0",
+        highlight: "#FF5A5E",
+        label: "Red"
+      },
+      {
+        value:{{data.drink_choices.data.1}},
+        color: "purple",
+        highlight: "#5AD3D1",
+        label: "Green"
+      },
+      {
+        value: {{data.drink_choices.data.2}},
+        color: "pink",
+        highlight: "#FFC870",
+        label: "Yellow"
+      }
+    ],
+
+
+    [
+      {
+        value: {{data.med_choices.data.0}},
+        color:"#FF0",
+        highlight: "#FF5A5E",
+        label: "Red"
+      },
+      {
+        value:{{data.med_choices.data.1}},
+        color: "purple",
+        highlight: "#5AD3D1",
+        label: "Green"
+      }
+    ],
+
+    [
+      {
+        value: {{data.sport_choices.data.0}},
+        color:"#FF0",
+        highlight: "#FF5A5E",
+        label: "Red"
+      },
+      {
+        value: {{data.sport_choices.data.1}},
+        color: "purple",
+        highlight: "#5AD3D1",
+        label: "Green"
+      },
+      {
+        value: {{data.sport_choices.data.2}},
+        color: "purple",
+        highlight: "#5AD3D1",
+        label: "Green"
+      }
+    ]
+
+  ];
+
+    
+    function draw(canvas, data) {
+      var ctx = canvas.getContext("2d");
+      var midX = canvas.width/2;
+      var midY = canvas.height/2
+
+      // Create a pie chart
+      var myPieChart = new Chart(ctx).Pie(data, {
+        showTooltips: false,
+        onAnimationProgress: drawSegmentValues
+      });
+
+      var radius = myPieChart.outerRadius;
+
+    function drawSegmentValues()
+      {
+        for(var i=0; i<myPieChart.segments.length; i++) 
+        {
+          ctx.fillStyle= getTextColor(myPieChart.segments[i].fillColor);
+          var textSize = canvas.width/10;
+          ctx.font= textSize+"px Verdana";
+          // Get needed variables
+          var value = myPieChart.segments[i].value;
+          var startAngle = myPieChart.segments[i].startAngle;
+          var endAngle = myPieChart.segments[i].endAngle;
+          var middleAngle = startAngle + ((endAngle - startAngle)/2);
+
+          // Compute text location
+          var posX = (radius/2) * Math.cos(middleAngle) + midX;
+          var posY = (radius/2) * Math.sin(middleAngle) + midY;
+
+          // Text offside by middle
+          var w_offset = ctx.measureText(value).width/2;
+          var h_offset = textSize/4;
+
+          ctx.fillText(value, posX - w_offset, posY + h_offset);
+        }
+      }
+    }
+
+    function getTextColor(color) {
+      switch(color) {
+        case 'pink':
+        default: 
+          return 'white';
+        case 'blue':
+          return 'black';
+      }
+    }
+
+    draw(document.getElementById("canvas"), allData[0]);
+    draw(document.getElementById("canvas2"), allData[1]);
+    draw(document.getElementById("canvas3"), allData[2]);
+    draw(document.getElementById("canvas4"), allData[3]);
+
+</script>
+{% endblock %}
